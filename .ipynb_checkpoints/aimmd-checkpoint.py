@@ -6,7 +6,7 @@ import numpy as np
 import scipy
 import torch
 
-def shoot(x, y, inA, inB, engine, nsteps=100, max_length=10000, D=1.0, dt=1e-5):
+def shoot(x, y, inA, inB, evolve, nsteps=100, max_length=10000, D=1.0, dt=1e-5):
     """
     Perform 2-way shooting from the shooting point (x, y).
     Stop upon reaching one of the two states.
@@ -15,7 +15,7 @@ def shoot(x, y, inA, inB, engine, nsteps=100, max_length=10000, D=1.0, dt=1e-5):
     ----------
     x, y: float, shooting point position
     inA, inB: functions, check whether a point is in A or in B
-    engine: to evolve x and y positions
+    evolve: to evolve x and y positions
     max_length: int, maximum length of a backward/forward subtrajectory
     nsteps: int, integration steps between subsequent frames
     D: float, diffusion coefficient
@@ -121,7 +121,7 @@ def evaluate(model, descriptors, batch_size=4096):
         batch_values = batch_values.cpu().detach().numpy()
         batch_values = scipy.special.expit(batch_values)
         values.append(batch_values.ravel())
-        return np.concatenate(values)
+    return np.concatenate(values)
 
 
 def selection_biases(committor_values, adaptation_bins=np.linspace(0, 1, 11)):

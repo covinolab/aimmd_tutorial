@@ -10,12 +10,12 @@ def plot_committor_values(committor_values, biases=None):
     fig = plt.figure(figsize=(4,3))
     plt.plot(committor_values, ':', color='black')
     plt.scatter(np.arange(len(committor_values)), committor_values,
-                s = biases / np.sum(biases) * 500,
+                s = biases / np.sum(biases) * 5000,
                 color='dodgerblue', alpha=.5, zorder=10, label='selection bias')
     plt.grid()
     plt.xlabel('Frame index')
     plt.ylabel('Committor value')
-    plt.set_yticks(np.linspace(0, 1, 11))
+    plt.gca().set_yticks(np.linspace(0, 1, 11))
     plt.legend()
     return fig
 
@@ -70,6 +70,7 @@ def plot_model(model, X, Y, V, A, B, P,
     
     keepers = ((X >= limits[0, None]) * (X <= limits[1, None]) *
                (Y >= limits[None, 2]) * (Y <= limits[None, 3]))
+    n = np.sum((X[0, :] >= limits[0]) * (X[0, :] <= limits[1]))
     X = X[keepers].reshape((-1, n))
     Y = Y[keepers].reshape((-1, n))
     V = V[keepers].reshape((-1, n))
@@ -99,6 +100,7 @@ def plot_model(model, X, Y, V, A, B, P,
     # visualize committor model
     xy = np.array([X.ravel(), Y.ravel()]).T
     values = evaluate(model, xy)
+    print(xy.shape, X.shape, values.shape)
     contour = plt.contour(X, Y, values.reshape(X.shape),
                         levels=np.linspace(.1, .9, 9),
                         colors='#777777', linewidths=1, zorder=-10)
@@ -121,7 +123,8 @@ def plot_model(model, X, Y, V, A, B, P,
         c = 'white'
 
     # visualize training set
-    plt.scatter(*shooting_points.T, s=5, c=c, zorder=100)
+    plt.scatter(*shooting_points.T, s=7, c='black', zorder=100)
+    plt.scatter(*shooting_points.T, s=5, c=c, zorder=102)
 
     return plt.gca()
 
