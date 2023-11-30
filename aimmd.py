@@ -32,7 +32,7 @@ def shoot(x, y, inA, inB, evolve, nsteps=100, max_length=10000, D=1.0, dt=1e-5):
   
     # simulate until reaching one of the states
     for i in range(1, max_length):
-        backward_trajectory[i] = engine(*backward_trajectory[i - 1])
+        backward_trajectory[i] = evolve(*backward_trajectory[i - 1])
         if (inA(backward_trajectory[i, None])[0] or
             inB(backward_trajectory[i, None])[0]):
             break
@@ -45,7 +45,7 @@ def shoot(x, y, inA, inB, evolve, nsteps=100, max_length=10000, D=1.0, dt=1e-5):
   
     # simulate until reaching one of the states
     for i in range(1, max_length):
-        forward_trajectory[i] = engine(*forward_trajectory[i - 1])
+        forward_trajectory[i] = evolve(*forward_trajectory[i - 1])
         if (inA(forward_trajectory[i, None])[0] or
             inB(forward_trajectory[i, None])[0]):
             break
