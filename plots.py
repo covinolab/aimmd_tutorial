@@ -1,6 +1,7 @@
 import scipy
 import numpy as np
 import matplotlib.pyplot as plt
+from aimmd import evaluate
 
 def plot_committor_values(committor_values, biases=None):
 
