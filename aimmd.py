@@ -60,7 +60,29 @@ def shoot(x, y, inA, inB, evolve, nsteps=100, max_length=10000, D=1.0, dt=1e-5):
 
 def train(model, shooting_points, shooting_results, lr=1e-4):
     """
-
+    Trains `model` on the provided `shooting_points` and learns
+    the logit-committor function of the studied system.
+    
+    The function uses the Adam optimizer with the log-binomial loss,
+    trains a fixed number of epochs (50), and uses a default batch
+    size of 4096.
+    
+    Parameters
+    ----------
+    model: PyTorch neural network model
+    shooting_points: (n, d)-sized array, where n is the size of the
+                     training set, and d is the dimension of the feature
+                     space (input to the neural network `model`)
+    shooting_results: (n, 2)-sized array; for each shooting point,
+                      it contains the rA, rB numbers reporting the number
+                      of times the trajectory shot from the shooting point
+                      reaches state A and B, respectively
+    lr: learning rate of the training
+    
+    Returns
+    -------
+    model: the PyTorch neural network model with updated parameters
+    losses: a list of losses for each training epochs
     """
     batch_size = 4096
     base_epochs = 50
@@ -126,7 +148,20 @@ def evaluate(model, descriptors, batch_size=4096):
 
 def selection_biases(committor_values, adaptation_bins=np.linspace(0, 1, 11)):
     """
-    Density correction.
+    Determines the selection probability of each of the points of the
+    provided input trajectory, such that to achieve a uniform selection
+    probability in the committor space.
+    
+    Parameters
+    ----------
+    committor_values: array of committor values of the input trajectory
+    adaptation_bins: the bins in the committor space in which we impose
+                     the selection probability to be uniform
+    
+    Returns
+    -------
+    selection_biases: the selection probability of each trajectory point,
+                      normalized to 1.
     """
   
     n_adaption_bins = len(adaptation_bins) - 1
