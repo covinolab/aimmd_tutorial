@@ -156,7 +156,7 @@ def plot_energy_profile(values, weights,
     return plt.gca()
 
 def plot_crossing_probability(extremes, weights):
-    figure = plt.figure(figsize=(4,3))
+    figure = plt.figure(figsize=(8,6))
     order = np.argsort(extremes)[::-1]
     plt.barh(np.append([0.], np.cumsum(weights[order])[:-1]),
           extremes[order],
@@ -166,7 +166,7 @@ def plot_crossing_probability(extremes, weights):
     plt.xlim(0, 1)
     plt.grid()
     plt.xlabel('Extremes')
-    plt.ylabel('Weights')
+    plt.ylabel('Cumulative weight')
 
     x = np.linspace(0, 1, 101)
     plt.plot(x, 1/x, 'r', zorder=5)
