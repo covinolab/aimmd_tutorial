@@ -101,7 +101,6 @@ def plot_model(model, X, Y, V, A, B, P,
     # visualize committor model
     xy = np.array([X.ravel(), Y.ravel()]).T
     values = evaluate(model, xy)
-    print(xy.shape, X.shape, values.shape)
     contour = plt.contour(X, Y, values.reshape(X.shape),
                         levels=np.linspace(.1, .9, 9),
                         colors='#777777', linewidths=1, zorder=-10)
