@@ -3,7 +3,7 @@ import torch
 class Network(torch.nn.Module):
     """
     Pytorch neural network.
-    Input features size: 2 (x, y).
+    Input features size: 2064 (rescaled interatomic distances).
     Output size: 1 (logit of the committor).
     """
     def __init__(self):
